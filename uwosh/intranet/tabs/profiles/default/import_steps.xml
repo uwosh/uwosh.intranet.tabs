@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<import-steps>
+    <import-step id="uwosh.intranet.tabs.install" version="2"
+        handler="uwosh.intranet.tabs.exportimport.install"
+        title="Installing step for uwosh.intranet.tabs">
+    </import-step>
+</import-steps>

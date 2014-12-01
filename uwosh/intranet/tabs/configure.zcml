@@ -1,0 +1,40 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="uwosh.intranet.tabs">
+
+  <include package="plone.formwidget.contenttree" />
+  <include package="plone.z3cform" />
+  <include package="plone.app.z3cform" />
+
+  <five:registerPackage package="." initialize=".initialize" />
+
+  <class class=".content.Tab">
+      <require interface=".interfaces.ITab" permission="zope2.View" />
+  <!--    <require attributes="Title getId" permission="zope2.View" />-->
+  </class>
+  
+  <utility
+    component=".content.TabFactory"
+    name="tab.TabFactory"
+    />
+
+  <permission
+      id="uwosh.intranet.tabs.ManageTabs"
+      title="Manage Tabs"
+    />
+  
+  <include package=".browser" />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="uwosh.intranet.tabs"
+      directory="profiles/default"
+      description="Installs the uwosh.intranet.tabs package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+  <!-- -*- extra stuff goes here -*- -->
+  
+</configure>

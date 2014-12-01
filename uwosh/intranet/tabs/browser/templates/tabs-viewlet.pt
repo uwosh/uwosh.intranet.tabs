@@ -1,0 +1,12 @@
+<ul>
+    <tal:tabs tal:repeat="tab view/tabs">
+        <li tal:define="index repeat/tab/index">
+            <span tal:condition="python:index != 0">&ndash;</span>
+            <a tal:attributes="href string:/${tab/absolute_url}" tal:content="tab/Title" /> 
+        </li>
+    </tal:tabs>
+    <li>
+        <span tal:condition="python:len(view.tabs) > 0">&ndash;</span> 
+        <a id="all-tabs" tal:attributes="href string:${view/portal_url}/tabs/@@all-tabs">All Tabs</a>
+    </li>
+</ul>

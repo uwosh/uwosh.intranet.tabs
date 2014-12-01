@@ -1,0 +1,136 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+      
+<metal:css fill-slot="style_slot">
+    <link rel="stylesheet" type="text/css" media="screen" href="++resource++uwosh.intranet.tabs.resources/jqueryFileTree.css" /> 
+    <link rel="stylesheet" type="text/css" media="screen" href="++resource++uwosh.intranet.tabs.resources/jquery.autocomplete.css" /> 
+    <link rel="stylesheet" type="text/css" media="screen" href="++resource++uwosh.intranet.tabs.resources/manage-links.css" /> 
+</metal:css>
+<metal:javascript fill-slot="javascript_head_slot">
+    <script type="text/javascript" src="++resource++uwosh.intranet.tabs.resources/jquery-ui-1.8.2.custom.min.js"></script>
+    <script type="text/javascript" src="++resource++uwosh.intranet.tabs.resources/jqueryFileTree.js"></script>
+    <script type="text/javascript" src="++resource++uwosh.intranet.tabs.resources/jquery.autocomplete.js"></script>
+    <script type="text/javascript" src="++resource++uwosh.intranet.tabs.resources/manage-links.js"></script>
+</metal:javascript>
+      
+<body>
+<metal:content-core fill-slot="content-core">
+    <metal:content-core define-macro="content-core" tal:define="url view/context/absolute_url">
+        
+        <div id="ajaxed-overlay" class="overlay overlay-ajax ">
+            <div class="close">
+                <span>Close</span>
+            </div>
+            <div class="pb-ajax">
+            </div>
+        </div>
+        
+        <div id="link-finder" class="overlay overlay-ajax ">
+            <div class="close">
+                <span>Close</span>
+            </div>
+            <div class="pb-ajax">
+                <form id="add-external-link" method="post" 
+                    tal:attributes="action string:${view/context/absolute_url}/@@add-external-link">
+                    <input type="hidden" name="group" value="" />
+                    <input class="context allowMultiSubmit" type="submit" name="empty.." value="Add External Link" />
+                </form>
+                    
+                <form id="object-tree" method="post" tal:attributes="action string:${view/context/absolute_url}/@@ajax-add-link">
+                    <input type="hidden" name="group" value="" />
+                    <input type="hidden" name="link" value="" />
+                    <input type="hidden" name="type" value="path" />
+                    <h3>Select link to add</h3>
+                    <div id="tree-container" class="jqueryFileTree">
+                
+                    </div>
+                    <div class="formControls">
+                        <input class="context allowMultiSubmit" type="submit" disabled="disabled" name="form.buttons.add" value="Add" />
+                    </div>
+                </form>
+                <hr />
+                <div id="suggested-items">
+                    <div id="recent-items" class="items">
+                        <h3>Recently created...</h3>
+                        <ul>
+                            <tal:recent tal:repeat="item view/recent_items">
+                            <li>
+                                <tal:name tal:replace="item/Title" />
+                                [<a href="#" tal:attributes="rel item/UID">+</a>]
+                            </li>
+                            </tal:recent>
+                        </ul>
+                    </div>
+                    <div id="recent-items-by-user" class="items">
+                        <h3>Recently created by you...</h3>
+                        <ul>
+                            <tal:recent tal:repeat="item view/recent_by_user_items">
+                            <li>
+                                <tal:name tal:replace="item/Title" />
+                                [<a href="#" tal:attributes="rel item/UID">+</a>]
+                            </li>
+                            </tal:recent>
+                        </ul>
+                    </div>
+                    <form id="live-search-link-finder" method="post" tal:attributes="action string:${view/context/absolute_url}/@@ajax-add-link">
+                        <input type="hidden" name="group" value="" />
+                        <input type="hidden" name="link" value="" />
+                        <input type="hidden" name="type" value="uid" />
+                        <h3>Or search for link</h3>
+                        <p>
+                    		Search:
+                    		<input type="text" style="width: 200px;" value="" id="search-links" autocomplete="off" class="ac_input" />
+                    	</p>
+                        <div class="formControls">
+                            <input class="context allowMultiSubmit" type="submit" disabled="disabled" name="form.buttons.add" value="Add" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <a id="add-group" tal:attributes="href string:${view/context/absolute_url}/@@add-group">Add Group</a>
+        <div id="groups">
+            <ul class="sortableGroups">
+                <li class="group" tal:attributes="id group/title" tal:repeat="group view/groups">
+                    <input type="hidden" tal:attributes="value group/title" name="group" />
+                    <h3 class="group-title" tal:define="data python: view.encode(group=group.title);
+                                                        delete_link string:${url}/@@delete-group?${data};
+                                                        rename_link string:${url}/@@rename-group?${data}">
+                        <span class="grabber">⣿</span>
+                        <tal:block tal:replace="group/title" /> 
+                        [<a id="rename-group" tal:attributes="href rename_link">
+                            Rename
+                        </a>]
+                        [<a class="delete" tal:attributes="href delete_link">
+                            -
+                        </a>]
+                    </h3>
+                    <ul class="sortableLinks" tal:attributes="id group/title">
+                        <li tal:attributes="id link/UID" tal:repeat="link python: view.get_links(group.links)">
+                            <span class="grabber">⣿</span>
+                            <tal:block tal:define="data python: view.encode(group=group.title, link=link.UID);
+                                                   delete_link string:${url}/@@delete-link?${data}">
+                                <a tal:attributes="href link/getURL" tal:content="link/Title" />
+                                [<a class="delete" tal:attributes="href delete_link">
+                                    -
+                                </a>]
+                            </tal:block>
+                        </li>
+                    </ul>
+                    <span class="add-link" tal:define="data python: view.encode(group=group.title);
+                                                       link string:${url}/@@add-link?${data};">
+                        <a tal:attributes="href link">Add Link</a>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </metal:content-core>
+</metal:content-core>
+</body>
+</html>
+

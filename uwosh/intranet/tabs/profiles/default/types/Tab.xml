@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<object name="Tab" meta_type="Factory-based Type Information"
+   i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="title" i18n:translate="">Tab</property>
+ <property name="description" i18n:translate="">Tab.</property>
+ <property name="content_icon"></property>
+ <property name="content_meta_type">Tab</property>
+ <property name="product">uwosh.intranet.tab</property>
+ <property name="factory">tabs.TabFactory</property>
+ <property name="immediate_view"></property>
+ <property name="global_allow">False</property>
+ <property name="filter_content_types">True</property>
+ <property name="allowed_content_types"/>
+ <property name="allow_discussion">True</property>
+ <alias from="(Default)" to="@@tab-view"/>
+ <alias from="view" to="@@tab-view"/>
+ <action title="View" action_id="view" category="object" condition_expr=""
+    url_expr="string:${object_url}/@@tab-view" visible="True">
+  <permission value="View"/>
+ </action>
+</object>

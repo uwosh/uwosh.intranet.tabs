@@ -1,0 +1,140 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="uwosh.intranet.tabs">
+
+	<browser:viewlet
+		name="uwosh.intranet.tabs"
+		manager="plone.app.layout.viewlets.interfaces.IPortalTop"
+		class=".viewlets.Tabs"
+		layer="uwosh.intranet.tabs.interfaces.ILayer"
+		permission="zope2.View" 
+	/>
+	
+	<browser:page
+        for="uwosh.intranet.tabs.interfaces.ITabs"
+        name="all-tabs"
+        class=".views.AllTabsView"
+        permission="zope2.View"
+    />
+    
+    <browser:page
+        for="uwosh.intranet.tabs.interfaces.ITabs"
+        name="add-to-my-tabs"
+        class=".views.AddToMyTabs"
+        permission="zope2.View"
+    />
+    
+    <browser:page
+        for="uwosh.intranet.tabs.interfaces.ITabs"
+        name="remove-from-my-tabs"
+        class=".views.RemoveFromMyTabs"
+        permission="zope2.View"
+    />
+	
+	<browser:page
+        for="uwosh.intranet.tabs.interfaces.ITabs"
+        name="add-tab"
+        class=".views.AddTabForm"
+        permission="uwosh.intranet.tabs.ManageTabs"
+    />
+    
+    <browser:page
+        for="uwosh.intranet.tabs.interfaces.ITab"
+        name="manage-groups"
+        class=".views.ManageGroupsView"
+        permission="uwosh.intranet.tabs.ManageTabs"
+    />
+    
+    <browser:page
+        for="uwosh.intranet.tabs.interfaces.ITab"
+        name="add-group"
+        class=".views.AddGroupForm"
+        permission="uwosh.intranet.tabs.ManageTabs"
+    />
+    
+    <browser:page
+        for="uwosh.intranet.tabs.interfaces.ITab"
+        name="rename-group"
+        class=".views.RenameGroupForm"
+        permission="uwosh.intranet.tabs.ManageTabs"
+    />
+    
+    <browser:page
+        for="uwosh.intranet.tabs.interfaces.ITab"
+        name="delete-link"
+        class=".views.DeleteLinkForm"
+        permission="uwosh.intranet.tabs.ManageTabs"
+    />
+    
+    <browser:page
+        for="uwosh.intranet.tabs.interfaces.ITab"
+        name="delete-group"
+        class=".views.DeleteGroupForm"
+        permission="uwosh.intranet.tabs.ManageTabs"
+    />
+	
+	  <browser:page
+	      for="uwosh.intranet.tabs.interfaces.ITab"
+        name="ajax-add-link"
+        class=".views.NavigationGenerator"
+        attribute="ajax_add_link"
+        permission="uwosh.intranet.tabs.ManageTabs"
+    />
+	
+	  <browser:page
+	      for="uwosh.intranet.tabs.interfaces.ITab"
+        name="add-link"
+        class=".views.AddLinkForm"
+        permission="uwosh.intranet.tabs.ManageTabs"
+    />
+    <browser:page
+	      for="uwosh.intranet.tabs.interfaces.ITab"
+        name="add-external-link"
+        class=".views.AddExternalLinkForm"
+        permission="uwosh.intranet.tabs.ManageTabs"
+    />
+  
+    <browser:page
+	    for="uwosh.intranet.tabs.interfaces.ITab"
+        name="update-link-order"
+        class=".views.ManageGroupsView"
+        attribute="update_link_order"
+        permission="uwosh.intranet.tabs.ManageTabs"
+    />
+    
+    <browser:page
+	    for="uwosh.intranet.tabs.interfaces.ITab"
+        name="update-group-order"
+        class=".views.ManageGroupsView"
+        attribute="update_group_order"
+        permission="uwosh.intranet.tabs.ManageTabs"
+    />
+    
+    <browser:page
+        for="uwosh.intranet.tabs.interfaces.ITab"
+        name="tab-view"
+        class=".views.TabView"
+        permission="zope2.View"
+    />
+    
+    <browser:page
+        for="*"
+        name="get-navigation"
+        class=".views.NavigationGenerator"
+        permission="uwosh.intranet.tabs.ManageTabs"
+    />
+    
+    <browser:page
+        for="*"
+        name="search-links"
+        class=".views.Search"
+        permission="uwosh.intranet.tabs.ManageTabs"
+    />
+    
+    <browser:resourceDirectory
+      name="uwosh.intranet.tabs.resources"
+      directory="files"
+      />
+    
+</configure>

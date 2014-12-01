@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<componentregistry>
+ <utilities>
+   
+  <utility 
+      interface="uwosh.intranet.tabs.interfaces.ITabs"
+      object="tabs"
+      />
+ </utilities>
+</componentregistry>

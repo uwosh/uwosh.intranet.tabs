@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+<metal:content fill-slot="content">
+    <metal:content define-macro="content">
+        <div id="content">
+            <h1>My Tabs</h1>
+            <tal:tabs tal:repeat="tab view/myTabs">
+                <li tal:define="index repeat/tab/index">
+                    <a tal:attributes="href string:/${tab/absolute_url}" tal:content="tab/Title" /> 
+                    [<a tal:attributes="href string:@@remove-from-my-tabs?tab=${tab/id}">Remove from My Tabs</a>]
+                </li>
+            </tal:tabs>
+            
+            <h1>All Tabs</h1> 
+            <div id="content-core">
+                <div id="tabs">
+                    <ul>
+                        <tal:tabs tal:repeat="tab view/allTabs">
+                            <li>
+                                <a tal:attributes="href string:/${tab/absolute_url}" tal:content="tab/Title" /> 
+                                [<a tal:attributes="href string:@@add-to-my-tabs?tab=${tab/id}">Add to My Tabs</a>]
+                            </li>
+                        </tal:tabs>
+                        <li tal:condition="view/canManageTabs">
+                            <a id="add-tab" tal:attributes="href string:${view/portal_url}/tabs/@@add-tab">Add New Tab</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </metal:content>
+</metal:content>
+</body>
+</html>
+
